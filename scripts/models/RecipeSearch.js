@@ -27,22 +27,61 @@ export class RecipeSearch {
         this.filteredRecipes = [];
         this.tagList = { ingredients: [], appliances: [], ustensils: [] };
 
-        this.recipes.forEach((recipe) => {
+        // Going through all the recipes one by one
+        for (let index = 0; index < this.recipes.length; index++) {
+            const recipe = this.recipes[index];
 
-            // Checking if the recipe has the correct tags
-            const isFilteredByTag = this.activeTags.every(tag => // will return true if no active tags or if either...
-                recipe.appliance.toLowerCase() == tag // ... appliance match
-                || recipe.ustensils.some(item => item.toLowerCase() == tag) // ... in the ustensils list
-                || recipe.ingredients.some(item => item.ingredient.toLowerCase() == tag) // ... in the ingredients
-            )
+            // Initialising the search check as false
+            let isFilteredByTag = false;
+            let isFilteredByString = false;
 
-            const isFilteredByString = // Checking for search string
-                this.searchString == '' // True if empty string - skip the other checks
-                || ( // Otherwise check ...
-                    recipe.name.toLowerCase().includes(this.searchString) // ... in recipe name
-                    || recipe.description.toLowerCase().includes(this.searchString) // ... recipe description
-                    || recipe.ingredients.some(i => i.ingredient.includes(this.searchString)) // ... list of ingredients
-                );
+            // Filtering the recipe by tags first
+            if (!this.activeTags.length) {
+                // The recipe is displayed as there are no active tags
+                isFilteredByTag = true;
+            } else {
+                // Going through the active tags one by one
+                for (let i = 0; i < this.activeTags.length; i++) {
+                    const tag = this.activeTags[i];
+
+                    // Checking if the appliance matches the current tag
+                    if (recipe.appliance.toLowerCase() == tag) {
+                        isFilteredByTag = true;
+                    };
+
+                    // Checking if one of the ustensils matches the current tag
+                    for (let j = 0; j < recipe.ustensils.length; j++) {
+                        if (recipe.ustensils[j].toLowerCase() == tag) {
+                            isFilteredByTag = true;
+                        };
+                    };
+
+                    // Checking if one of the ingredients matches the current tag
+                    for (let j = 0; j < recipe.ingredients.length; j++) {
+                        if (recipe.ingredients[j].ingredient.toLowerCase() == tag) {
+                            isFilteredByTag = true;
+                        };
+                    };
+                };
+            };
+
+            // Filtering by search string
+            if (this.searchString == '') {
+                // Search string is empty, so recipe get a fast pass
+                isFilteredByString = true;
+            } else {
+                // The string is found in the recipe name or instructions
+                if (recipe.name.toLowerCase().includes(this.searchString) || recipe.description.toLowerCase().includes(this.searchString)) {
+                    isFilteredByString = true;
+                } else {
+                    // Checking if the string is found amongst the ingredients
+                    for (let j = 0; j < recipe.ingredients.length; j++) {
+                        if (recipe.ingredients[j].ingredient.includes(this.searchString)) {
+                            isFilteredByString = true;
+                        };
+                    };
+                };
+            };
 
             if (isFilteredByTag && isFilteredByString) {
 
@@ -69,7 +108,7 @@ export class RecipeSearch {
 
             };
 
-        });
+        };
 
         this.tagList.ingredients.sort((a, b) => a.localeCompare(b));
         this.tagList.appliances.sort((a, b) => a.localeCompare(b));
