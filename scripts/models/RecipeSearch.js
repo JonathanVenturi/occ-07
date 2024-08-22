@@ -41,7 +41,7 @@ export class RecipeSearch {
                 || ( // Otherwise check ...
                     recipe.name.toLowerCase().includes(this.searchString) // ... in recipe name
                     || recipe.description.toLowerCase().includes(this.searchString) // ... recipe description
-                    || recipe.ingredients.some(i => i.ingredient.includes(this.searchString)) // ... list of ingredients
+                    || recipe.ingredients.some(i => i.ingredient.toLowerCase().includes(this.searchString)) // ... list of ingredients
                 );
 
             if (isFilteredByTag && isFilteredByString) {
