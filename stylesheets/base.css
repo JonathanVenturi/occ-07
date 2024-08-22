@@ -1,0 +1,357 @@
+@import url('./reset.css');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope&display=swap');
+
+
+body {
+    font-family: "Manrope", sans-serif;
+    background-color: #C6C6C6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    max-width: 1440px;
+    height: 667px;
+    background-image: url(../assets/images/splash.png);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header .logo {
+    position: absolute;
+    top: 50px;
+    left: 60px;
+    width: 250px;
+}
+
+header h2 {
+    margin-top: 200px;
+    padding: 0 20%;
+    font-family: "Anton", sans-serif;
+    font-size: 3rem;
+    font-weight: 400;
+    font-style: normal;
+    text-transform: uppercase;
+    text-align: center;
+    color: #FFD15B;
+}
+
+.search-form {
+    display: flex;
+    height: 70px;
+    width: 70%;
+    margin-top: 50px;
+    background-color: #FFF;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.search-form #search-input {
+    height: 100%;
+    width: calc(100% - 70px);
+    padding: 15px;
+    border: none;
+    outline: none;
+}
+
+.search-form #clear-search {
+    background-color: #FFF;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+.search-form.filled #clear-search {
+    display: block;
+}
+
+.search-form #search-submit-button {
+    height: 52px;
+    width: 51px;
+    margin: 9px;
+    background-color: #FFF;
+    background-image: url('../assets/icons/magnifier_big.svg');
+    border: none;
+}
+
+.search-form #search-submit-button:hover {
+    background-image: url('../assets/icons/magnifier_hover.svg');
+}
+
+main {
+    width: 100%;
+    max-width: 1440px;
+}
+
+/* FILTERS */
+
+.filters {
+    position: relative;
+    padding: 20px;
+    width: 100%;
+    max-width: 1440px;
+    text-transform: capitalize;
+}
+
+.dropdown-selectors {
+    display: flex;
+    gap: 50px;
+}
+
+
+.dropdown {
+    position: relative;
+    width: 250px;
+}
+
+.dropdown .filter-button {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #FFF;
+    border-radius: 10px;
+}
+
+.dropdown .filter-button::after {
+    height: 8px;
+    width: 15px;
+    content: '';
+    background-image: url('../assets/icons/chevron.svg');
+}
+
+.dropdown.active .filter-button {
+    border-radius: 10px 10px 0 0;
+}
+
+.dropdown.active .filter-button::after {
+    transform: rotate(180deg);
+}
+
+.dropdown .filter-dropdown {
+    width: 100%;
+    background-color: #FFF;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+    position: absolute;
+    display: none;
+
+}
+
+.dropdown.active .filter-dropdown {
+    z-index: 1;
+    display: block;
+}
+
+
+
+
+
+.filter-dropdown .filter-search {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 15px;
+    padding: 5px;
+    border: 1px solid #C6C6C6;
+    border-radius: 3px;
+}
+
+
+.filter-dropdown input {
+    width: calc(100% - 20px);
+    border: none;
+    outline: none;
+}
+
+
+.filter-search .clear-button {
+    height: 9px;
+    width: 9px;
+    background-color: #FFF;
+    background-image: url('../assets/icons/clear.svg');
+    background-repeat: no-repeat;
+    border: none;
+    display: none;
+}
+
+.filter-search.filled .clear-button {
+    display: block;
+}
+
+.filter-dropdown .filter-search::after {
+    display: inline-block;
+    content: '';
+    height: 14px;
+    width: 14px;
+    background-image: url('../assets/icons/magnifier.svg');
+
+}
+
+
+.filter-dropdown ul {
+    max-height: 500px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
+.filter-dropdown li {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.filter-dropdown li.active {
+    background-color: #FFD15B;
+}
+
+.filter-dropdown li:hover {
+    background-color: #FFD15B;
+}
+
+
+.filter-dropdown li.active:hover::after {
+    height: 17px;
+    width: 17px;
+    background-image: url(../assets/icons/clear_alt.svg);
+    background-repeat: no-repeat;
+    content: '';
+}
+
+
+/* RECIPE COUNT */
+
+.filters .recipe-counter {
+
+    font-family: "Anton", sans-serif;
+    font-size: 1.4rem;
+    position: absolute;
+    right: 20px;
+    top: 30px;
+}
+
+
+
+
+/* TAGS */
+
+.filters .tags {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+
+.filters .tags li {
+    display: flex;
+    gap: 50px;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 20px;
+    height: 50px;
+    min-width: 150px;
+    background-color: #FFD15B;
+    border-radius: 10px;
+
+}
+
+.filters .tags li::after {
+    height: 14px;
+    width: 14px;
+    background-image: url('../assets/icons/clear_tag.svg');
+    background-repeat: no-repeat;
+    content: '';
+}
+
+
+
+/* RECIPE LIST AND CARDS */
+
+
+.recipes {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 30px;
+}
+
+.recipe-card {
+    font-size: 0.875rem;
+    max-width: calc((100% - 60px) / 3);
+    position: relative;
+    background-color: #FFF;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+
+.recipe-picture {
+    width: 100%;
+    height: 250px;
+}
+
+
+.recipe-title {
+    padding: 10px 20px;
+    font-family: "Anton", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 100;
+}
+
+
+.recipe-card h3 {
+
+    font-family: "Manrope", sans-serif;
+    color: #7A7A7A;
+    font-weight: 200;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.recipe-instructions {
+
+    padding: 10px 20px;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+}
+
+.recipe-instructions p {
+    padding-top: 10px;
+}
+
+.recipe-ingredients {
+    padding: 10px 20px 20px 20px;
+}
+
+
+.ingredients-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.recipe-ingredient {
+    flex-basis: 50%;
+    padding-top: 10px;
+}
+
+.recipe-ingredient .quantity {
+    color: #7A7A7A;
+}
+
+.recipe-time {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 5px 15px;
+    background-color: #FFD15B;
+    border-radius: 15px;
+}
