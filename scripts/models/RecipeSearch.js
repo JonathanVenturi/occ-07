@@ -76,7 +76,7 @@ export class RecipeSearch {
                 } else {
                     // Checking if the string is found amongst the ingredients
                     for (let j = 0; j < recipe.ingredients.length; j++) {
-                        if (recipe.ingredients[j].ingredient.includes(this.searchString)) {
+                        if (recipe.ingredients[j].ingredient.toLowerCase().includes(this.searchString)) {
                             isFilteredByString = true;
                         };
                     };
