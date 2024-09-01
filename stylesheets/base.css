@@ -15,7 +15,7 @@ header {
     width: 100%;
     max-width: 1440px;
     height: 667px;
-    background-image: url(../assets/images/splash.png);
+    background-image: url('../assets/images/splash.jpg');
     display: flex;
     flex-direction: column;
     align-items: center;
