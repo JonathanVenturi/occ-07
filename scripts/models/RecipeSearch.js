@@ -29,13 +29,6 @@ export class RecipeSearch {
 
         this.recipes.forEach((recipe) => {
 
-            // Checking if the recipe has the correct tags
-            const isFilteredByTag = this.activeTags.every(tag => // will return true if no active tags or if either...
-                recipe.appliance.toLowerCase() == tag // ... appliance match
-                || recipe.ustensils.some(item => item.toLowerCase() == tag) // ... in the ustensils list
-                || recipe.ingredients.some(item => item.ingredient.toLowerCase() == tag) // ... in the ingredients
-            )
-
             const isFilteredByString = // Checking for search string
                 this.searchString == '' // True if empty string - skip the other checks
                 || ( // Otherwise check ...
@@ -44,7 +37,14 @@ export class RecipeSearch {
                     || recipe.ingredients.some(i => i.ingredient.toLowerCase().includes(this.searchString)) // ... list of ingredients
                 );
 
-            if (isFilteredByTag && isFilteredByString) {
+            // Checking if the recipe has the correct tags
+            const isFilteredByTag = this.activeTags.every(tag => // will return true if no active tags or if either...
+                recipe.appliance.toLowerCase() == tag // ... appliance match
+                || recipe.ustensils.some(item => item.toLowerCase() == tag) // ... in the ustensils list
+                || recipe.ingredients.some(item => item.ingredient.toLowerCase() == tag) // ... in the ingredients
+            )
+
+            if (isFilteredByString && isFilteredByTag) {
 
                 this.filteredRecipes.push(recipe); // adding to the list of filtered recipes
 
@@ -93,10 +93,20 @@ export class RecipeSearch {
         const recipeListSection = document.createElement('section');
         recipeListSection.classList.add('recipes');
 
-        this.filteredRecipes.forEach((recipe) => {
-            const recipeCard = new RecipeCard(recipe);
-            recipeListSection.appendChild(recipeCard);
-        })
+        if (this.filteredRecipes.length) { // Filtered recipe list is not empty, displaying cards for recipe
+
+            this.filteredRecipes.forEach((recipe) => {
+                const recipeCard = new RecipeCard(recipe);
+                recipeListSection.appendChild(recipeCard);
+            })
+
+        } else { // No filtered recipes, displaying message
+
+            const message = document.createElement('p');
+            message.textContent = '« Aucune recette ne contient « ' + this.searchString + ' » vous pouvez chercher « tarte aux pommes », « poisson », etc';
+            recipeListSection.appendChild(message);
+
+        }
 
         const recipeListSelector = document.querySelector('.recipes');
         recipeListSelector.replaceWith(recipeListSection);
