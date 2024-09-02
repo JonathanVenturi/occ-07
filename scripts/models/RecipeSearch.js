@@ -32,40 +32,10 @@ export class RecipeSearch {
             const recipe = this.recipes[index];
 
             // Initialising the search check as false
-            let isFilteredByTag = false;
             let isFilteredByString = false;
+            let isFilteredByTag = false;
 
-            // Filtering the recipe by tags first
-            if (!this.activeTags.length) {
-                // The recipe is displayed as there are no active tags
-                isFilteredByTag = true;
-            } else {
-                // Going through the active tags one by one
-                for (let i = 0; i < this.activeTags.length; i++) {
-                    const tag = this.activeTags[i];
-
-                    // Checking if the appliance matches the current tag
-                    if (recipe.appliance.toLowerCase() == tag) {
-                        isFilteredByTag = true;
-                    };
-
-                    // Checking if one of the ustensils matches the current tag
-                    for (let j = 0; j < recipe.ustensils.length; j++) {
-                        if (recipe.ustensils[j].toLowerCase() == tag) {
-                            isFilteredByTag = true;
-                        };
-                    };
-
-                    // Checking if one of the ingredients matches the current tag
-                    for (let j = 0; j < recipe.ingredients.length; j++) {
-                        if (recipe.ingredients[j].ingredient.toLowerCase() == tag) {
-                            isFilteredByTag = true;
-                        };
-                    };
-                };
-            };
-
-            // Filtering by search string
+            // Filtering by search string first
             if (this.searchString == '') {
                 // Search string is empty, so recipe get a fast pass
                 isFilteredByString = true;
@@ -81,6 +51,48 @@ export class RecipeSearch {
                         };
                     };
                 };
+            };
+
+            // Filtering the recipe by tags
+            if (!this.activeTags.length) {
+                // The recipe is displayed as there are no active tags
+                isFilteredByTag = true;
+            } else {
+
+                // Initialising match counter for tags
+                let matchCounter = 0;
+
+                // Going through the active tags one by one
+                for (let i = 0; i < this.activeTags.length; i++) {
+                    const tag = this.activeTags[i];
+
+                    // Checking if the appliance matches the current tag
+                    if (recipe.appliance.toLowerCase() == tag) {
+                        matchCounter++;
+                        continue;
+                    };
+
+                    // Checking if one of the ustensils matches the current tag
+                    for (let j = 0; j < recipe.ustensils.length; j++) {
+                        if (recipe.ustensils[j].toLowerCase() == tag) {
+                            matchCounter++;
+                            continue;
+                        };
+                    };
+
+                    // Checking if one of the ingredients matches the current tag
+                    for (let j = 0; j < recipe.ingredients.length; j++) {
+                        if (recipe.ingredients[j].ingredient.toLowerCase() == tag) {
+                            matchCounter++;
+                            continue;
+                        };
+                    };
+                };
+
+                if (matchCounter == this.activeTags.length) { // All tags matched...
+                    isFilteredByTag = true; // ... recipe is flagged as filtered
+                }
+
             };
 
             if (isFilteredByTag && isFilteredByString) {
@@ -132,10 +144,20 @@ export class RecipeSearch {
         const recipeListSection = document.createElement('section');
         recipeListSection.classList.add('recipes');
 
-        this.filteredRecipes.forEach((recipe) => {
-            const recipeCard = new RecipeCard(recipe);
-            recipeListSection.appendChild(recipeCard);
-        })
+        if (this.filteredRecipes.length) { // Filtered recipe list is not empty, displaying cards for recipe
+
+            this.filteredRecipes.forEach((recipe) => {
+                const recipeCard = new RecipeCard(recipe);
+                recipeListSection.appendChild(recipeCard);
+            })
+
+        } else { // No filtered recipes, displaying message
+
+            const message = document.createElement('p');
+            message.textContent = '« Aucune recette ne contient « ' + this.searchString + ' » vous pouvez chercher « tarte aux pommes », « poisson », etc';
+            recipeListSection.appendChild(message);
+
+        }
 
         const recipeListSelector = document.querySelector('.recipes');
         recipeListSelector.replaceWith(recipeListSection);
@@ -143,4 +165,3 @@ export class RecipeSearch {
     }
 
 }
-
